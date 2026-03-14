@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
-import { DebtService, DebtResponse } from '../services/debt/debt-service';
+import { Component, signal } from '@angular/core';
+import { DebtResponse } from '../services/debt/debt-service';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-debt',
@@ -17,8 +18,8 @@ export class Debt {
 
     constructor(private http: HttpClient){}
 
-    apiUrlSarimax = 'http://localhost:8089/api/debt/predictions/sarimax/';
-    apiUrlVecm = 'http://localhost:8089/api/debt/predictions/vecm/';
+    apiUrlSarimax = environment.apiUrlSarimax;
+    apiUrlVecm = environment.apiUrlVecm;
 
     countries = [
         { code: 'MEX', name: 'Mexico' },
