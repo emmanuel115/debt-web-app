@@ -9,11 +9,22 @@
   <!-- Dropdown -->
   <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
   <select id="dropdown" [(ngModel)]="selectedCountry">
-    <option [ngValue]="null">-- Choose --</option>
+    <option [ngValue]="null">-- Paises --</option>
     <option *ngFor="let opt of countries" [ngValue]="opt.code">
       {{ opt.name }}
     </option>
   </select>
+
+  <label>
+  <input type="checkbox" [(ngModel)]="isSarimaxChecked" (change)="onCheckboxSarimaxChange($event)" />
+   Sarimax
+  </label>
+
+  <input
+    type="checkbox"
+    [(ngModel)]="isVecmChecked"
+    (change)="onCheckboxVecmChange($event)"
+  /> Vecm
 
   <!-- Button -->
   <button (click)="fetchData()" style="margin-left: 10px;">
@@ -27,15 +38,44 @@
 
   <!-- Error -->
   <div *ngIf="errorMessage()" style="color: red; margin-top: 10px;">
-    {{ errorMessage }}
+    {{ errorMessage() }}
   </div>
 
   <!-- Response -->
-  <div *ngIf="debtValues" style="margin-top: 10px;">
-    <ul>
-  <li *ngFor="let item of debtValues">
-    <strong>{{ item.year }}</strong> — {{ item.value }}
-  </li>
-</ul>
-  </div>
+   @if(sarimaxValues().length > 0){
+
+      <div style="margin-top: 10px;">
+          <p [style.color]="'blue'">
+              {{ currencyMessage() }}
+          </p>
+          <br><br>
+          SARIMAX
+          <ul>
+              <li *ngFor="let item of sarimaxValues()">
+                  <strong>{{ item.year }}</strong> — {{ item.value }}
+              </li>
+          </ul>
+      </div>
+   }
+  
+   @if(vecmValues().length > 0 && sarimaxValues().length > 0){
+      -----------------------------------------------------------------------
+   }
+
+  <!-- Response -->
+   @if(vecmValues().length > 0){
+      <div style="margin-top: 10px;">
+        <p [style.color]="'blue'">
+          {{ currencyMessage() }}
+        </p>
+        <br><br>
+        VECM
+        <ul>
+          <li *ngFor="let item of vecmValues()">
+            <strong>{{ item.year }}</strong> — {{ item.value }}
+          </li>
+        </ul>
+      </div>
+  }
+
 </div>
