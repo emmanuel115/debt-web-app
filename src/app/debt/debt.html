@@ -1,8 +1,41 @@
-<p>debt works!</p>
 <br><br>
 
-<ul>
+
+
+
+<div style="max-width: 800px; margin: auto; padding: 20px;">
+  <h2>Prediccion de Deuda Internacional</h2>
+
+  <!-- Dropdown -->
+  <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
+  <select id="dropdown" [(ngModel)]="selectedCountry">
+    <option [ngValue]="null">-- Choose --</option>
+    <option *ngFor="let opt of countries" [ngValue]="opt.code">
+      {{ opt.name }}
+    </option>
+  </select>
+
+  <!-- Button -->
+  <button (click)="fetchData()" style="margin-left: 10px;">
+    Obten Prediccion
+  </button>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" style="color: blue; margin-top: 10px;">
+    Cargando...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage()" style="color: red; margin-top: 10px;">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Response -->
+  <div *ngIf="debtValues" style="margin-top: 10px;">
+    <ul>
   <li *ngFor="let item of debtValues">
     <strong>{{ item.year }}</strong> — {{ item.value }}
   </li>
 </ul>
+  </div>
+</div>

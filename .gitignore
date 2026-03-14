@@ -20,6 +20,7 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 *:Zone.Identifier
+launch.json
 
 # Visual Studio Code
 .vscode/*

@@ -13,7 +13,10 @@ export interface DebtResponse {
   providedIn: 'root'
 })
 export class DebtService {
-  private apiUrl = 'http://localhost:8089/api/debt/predictions/MEX';
+  apiUrl = 'http://localhost:8089/api/debt/predictions/';
+  apiResponse: any = null;
+  loading = false;
+  errorMessage = '';
 
   constructor(private http: HttpClient) {}
 
