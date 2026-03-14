@@ -1,0 +1,6 @@
+{
+  "root": "dist/deb-web-app",
+  "routes": {
+    "/**": "index.html"
+  }
+}
