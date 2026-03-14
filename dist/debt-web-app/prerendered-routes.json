@@ -1,0 +1,8 @@
+{
+  "routes": {
+    "/": {},
+    "/corr-multi": {},
+    "/corr-uni": {},
+    "/debt": {}
+  }
+}
