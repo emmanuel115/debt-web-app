@@ -4,6 +4,7 @@ import { DebtResponse } from '../services/debt/debt-service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { COUNTRY_LIST } from '../constants';
 
 @Component({
   selector: 'app-debt',
@@ -12,6 +13,8 @@ import { environment } from '../../environments/environment';
   styleUrl: './debt.css',
 })
 export class Debt {
+     
+    countriesList = COUNTRY_LIST;
 
     sarimaxValues = signal<DebtResponse[]>([]);
     vecmValues = signal<DebtResponse[]>([]);
@@ -21,11 +24,7 @@ export class Debt {
     apiUrlSarimax = environment.apiUrlSarimax;
     apiUrlVecm = environment.apiUrlVecm;
 
-    countries = [
-        { code: 'MEX', name: 'Mexico' },
-        { code: 'USA', name: 'USA' },
-        { code: "ARG", name: 'Argentina' }
-    ];
+    
 
     selectedCountry: string | null = null;
     loading = signal(false);
@@ -47,7 +46,7 @@ export class Debt {
         this.sarimaxValues.set([]);
         this.vecmValues.set([]);
 
-        console.log("En el fetch data");
+        console.log("Debt predictions - fetch data()");
         const start = performance.now();
       
         this.errorMessage.update(value => "");

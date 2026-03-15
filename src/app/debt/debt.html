@@ -10,7 +10,7 @@
   <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
   <select id="dropdown" [(ngModel)]="selectedCountry">
     <option [ngValue]="null">-- Paises --</option>
-    <option *ngFor="let opt of countries" [ngValue]="opt.code">
+    <option *ngFor="let opt of countriesList" [ngValue]="opt.code">
       {{ opt.name }}
     </option>
   </select>
