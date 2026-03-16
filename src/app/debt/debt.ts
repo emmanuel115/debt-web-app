@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { DebtResponse } from '../services/debt/debt-service';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { COUNTRY_LIST } from '../constants';
+import { DebtResponse, DebtResponseValues } from '../debt-response';
 
 @Component({
   selector: 'app-debt',
@@ -15,22 +15,17 @@ import { COUNTRY_LIST } from '../constants';
 export class Debt {
      
     countriesList = COUNTRY_LIST;
-
-    sarimaxValues = signal<DebtResponse[]>([]);
-    vecmValues = signal<DebtResponse[]>([]);
+    sarimaxValues = signal<DebtResponseValues[]>([]);
+    vecmValues = signal<DebtResponseValues[]>([]);
 
     constructor(private http: HttpClient){}
 
     apiUrlSarimax = environment.apiUrlSarimax;
     apiUrlVecm = environment.apiUrlVecm;
-
-    
-
     selectedCountry: string | null = null;
     loading = signal(false);
     errorMessage = signal("");
     currencyMessage = signal("");
-
     isSarimaxChecked = false;
     isVecmChecked = false;
 
@@ -47,10 +42,8 @@ export class Debt {
         this.vecmValues.set([]);
 
         console.log("Debt predictions - fetch data()");
-        const start = performance.now();
-      
+        const start = performance.now();      
         this.errorMessage.update(value => "");
-        
 
         if (!this.selectedCountry) {
             this.errorMessage.update(value => "Selecciona un Pais");
@@ -65,13 +58,18 @@ export class Debt {
         if(this.isSarimaxChecked){
 
             let apiUrlTemp = this.apiUrlSarimax + this.selectedCountry;
-            console.log("API URL: " + apiUrlTemp);
-            this.http.get<DebtResponse[]>(apiUrlTemp).subscribe({
+            console.log("SARIMAX API URL: " + apiUrlTemp);
+            this.http.get<DebtResponse>(apiUrlTemp).subscribe({
                 next: (data) => {
-                    this.sarimaxValues.set([...data]);
+                    //console.log("API DATA: " + data.result)
                     this.loading.update(value => false);
-                    this.errorMessage.update(value => "");
-                    this.currencyMessage.update(value => "Valores expresados en USD")
+                    if(data.code < 0){
+                        this.sarimaxValues.set([]);
+                        this.errorMessage.update(value => "Sarimax - ha ocurrido un error al ejecutar la prediccion");
+                    }else{
+                        this.sarimaxValues.set(JSON.parse(data.result));
+                        this.currencyMessage.update(value => "Valores expresados en USD")
+                    }
                     const end = performance.now();
                     console.log(`Sarimax Execution time: ${(end - start).toFixed(2)} ms`);
                 },
@@ -88,13 +86,18 @@ export class Debt {
         if(this.isVecmChecked){
 
             let apiUrlTemp2 = this.apiUrlVecm + this.selectedCountry;
-            console.log("API URL: " + apiUrlTemp2);
-            this.http.get<DebtResponse[]>(apiUrlTemp2).subscribe({
+            console.log("VECM API URL: " + apiUrlTemp2);
+            this.http.get<DebtResponse>(apiUrlTemp2).subscribe({
                 next: (data) => {
-                    this.vecmValues.set([...data]);
                     this.loading.update(value => false);
-                    this.errorMessage.update(value => "");
-                    this.currencyMessage.update(value => "Valores expresados en USD")
+                    //console.log("API DATA: " + data)
+                    if(data.code < 0){
+                        this.vecmValues.set([]);
+                        this.errorMessage.update(value => "VECM - ha ocurrido un error al ejecutar la prediccion");
+                    }else{
+                        this.vecmValues.set(JSON.parse(data.result));
+                        this.currencyMessage.update(value => "Valores expresados en USD")
+                    }
                     const end = performance.now();
                     console.log(`Vecm Execution time: ${(end - start).toFixed(2)} ms`);
                 },
