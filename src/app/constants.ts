@@ -1,4 +1,13 @@
 
+export const INDICATOR_LIST = [
+
+    { code: 'gini', name: 'Inidice Gini' },
+    { code: 'tugurios', name: 'Poblacion viviendo en barrios de tugurios'},
+    { code: 'brecha3', name: 'Brecha de Pobreza 3 USD al dia' },
+    { code: 'brecha420', name: 'Brecha de Pobreza 4.20 USD al dia' },
+    { code: 'consumomedio', name: 'Consumo medio o ingresos per capita segn encuestas' },
+];
+
 export const COUNTRY_LIST = [
         
     { code: 'ABW',	 name: 'Aruba' },

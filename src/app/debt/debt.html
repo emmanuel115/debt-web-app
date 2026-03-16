@@ -72,7 +72,7 @@
         VECM
         <ul>
           <li *ngFor="let item of vecmValues()">
-            <strong>{{ item.year }}</strong> — {{ item.value }}
+            <strong>{{ item.year }}</strong> — {{ item.value | number:'1.0-2' }}
           </li>
         </ul>
       </div>

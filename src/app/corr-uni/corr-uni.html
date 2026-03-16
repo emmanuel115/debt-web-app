@@ -1,1 +1,53 @@
-<p>corr-uni works!</p>
+<br><br>
+
+
+
+
+<div style="max-width: 800px; margin: auto; padding: 20px;">
+  <h2>Analisis de Correlacion Uni variable</h2>
+
+  <!-- Dropdown -->
+  <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
+  <select id="dropdown" [(ngModel)]="selectedCountry">
+    <option [ngValue]="null">-- Paises --</option>
+    <option *ngFor="let opt of countriesList" [ngValue]="opt.code">
+      {{ opt.name }}
+    </option>
+  </select>
+
+  <!-- Dropdown -->
+  <label for="dropdown" style="padding: 5px">Seleciona un Indicador:</label>
+  <select id="dropdown" [(ngModel)]="selectedIndicator">
+    <option [ngValue]="null">-- Indicadores --</option>
+    <option *ngFor="let opt of indicatorsList" [ngValue]="opt.code">
+      {{ opt.name }}
+    </option>
+  </select>
+
+  <!-- Button -->
+  <button (click)="fetchDataUni()" style="margin-left: 10px;">
+    Mostrar Analisis
+  </button>
+
+  <!-- Loading -->
+  <div *ngIf="loading()" style="color: blue; margin-top: 10px;">
+    Cargando...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage()" style="color: red; margin-top: 10px;">
+    {{ errorMessage() }}
+  </div>
+
+  <!-- Response -->
+
+  @if(!loading()){
+    <p [style.color]="'blue'">
+        {{ indicatorMessage() }}
+        <br><br>
+    </p>
+  }
+  <img *ngIf="plotImageSrc()" [src]="plotImageSrc()" alt="Image" />
+  <!-- Response -->
+
+</div>
