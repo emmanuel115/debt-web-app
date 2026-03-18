@@ -4,20 +4,20 @@
 
 
 <div style="max-width: 800px; margin: auto; padding: 20px;">
-  <h2>Analisis de Correlacion Multi variable</h2>
+  <h2>Análisis de Correlación Multi variable</h2>
 
   <!-- Dropdown -->
-  <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
+  <label for="dropdown" style="padding: 5px">Seleciona un País:</label>
   <select id="dropdown" [(ngModel)]="selectedCountry">
-    <option [ngValue]="null">-- Paises --</option>
+    <option [ngValue]="null">-- Países --</option>
     <option *ngFor="let opt of countriesList" [ngValue]="opt.code">
       {{ opt.name }}
     </option>
   </select>
 
   <!-- Button -->
-  <button (click)="fetchData()" style="margin-left: 10px;">
-    Mostrar Analisis
+  <button (click)="fetchData()" class="primary-btn">
+    Mostrar Análisis
   </button>
 
   <!-- Loading -->
@@ -28,6 +28,11 @@
   <!-- Error -->
   <div *ngIf="errorMessage()" style="color: red; margin-top: 10px;">
     {{ errorMessage() }}
+  </div>
+
+   <!-- No data found -->
+  <div *ngIf="noDataMessage()" style="color: blue; margin-top: 10px;">
+    {{ noDataMessage() }}
   </div>
 
   <!-- Response -->

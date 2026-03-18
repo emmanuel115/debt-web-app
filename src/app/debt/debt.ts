@@ -25,6 +25,8 @@ export class Debt {
     selectedCountry: string | null = null;
     loading = signal(false);
     errorMessage = signal("");
+    errorMessageSarimax = signal("");
+    errorMessageVecm = signal("");
     currencyMessage = signal("");
     isSarimaxChecked = false;
     isVecmChecked = false;
@@ -44,9 +46,11 @@ export class Debt {
         console.log("Debt predictions - fetch data()");
         const start = performance.now();      
         this.errorMessage.update(value => "");
+        this.errorMessageSarimax.update(value => "");
+        this.errorMessageVecm.update(value => "");
 
         if (!this.selectedCountry) {
-            this.errorMessage.update(value => "Selecciona un Pais");
+            this.errorMessage.update(value => "Selecciona un País");
             return;
         }
         if(!this.isSarimaxChecked && !this.isVecmChecked){
@@ -65,7 +69,10 @@ export class Debt {
                     this.loading.update(value => false);
                     if(data.code < 0){
                         this.sarimaxValues.set([]);
-                        this.errorMessage.update(value => "Sarimax - ha ocurrido un error al ejecutar la prediccion");
+                        this.errorMessageSarimax.update(value => "Sarimax - ha ocurrido un error al ejecutar la predicción");
+                    }else if (data.code == 0){
+                        this.sarimaxValues.set([]);
+                        this.errorMessageSarimax.update(value => "Sarimax - no se encontraon suficientes datos para el modelo");
                     }else{
                         this.sarimaxValues.set(JSON.parse(data.result));
                         this.currencyMessage.update(value => "Valores expresados en USD")
@@ -74,7 +81,7 @@ export class Debt {
                     console.log(`Sarimax Execution time: ${(end - start).toFixed(2)} ms`);
                 },
                 error: (err) => {
-                    this.errorMessage.update(value => "Sarimax - Error al cargar datos. Intenta mas tarde");
+                    this.errorMessage.update(value => "Sarimax - ha ocurrido un error al ejecutar la predicción");
                     this.currencyMessage.update(value => "");
                     console.error(err);
                     this.loading.update(value => false);
@@ -93,7 +100,10 @@ export class Debt {
                     //console.log("API DATA: " + data)
                     if(data.code < 0){
                         this.vecmValues.set([]);
-                        this.errorMessage.update(value => "VECM - ha ocurrido un error al ejecutar la prediccion");
+                        this.errorMessageVecm.update(value => "VECM - ha ocurrido un error al ejecutar la prediccion");
+                    }else if(data.code == 0) {
+                        this.sarimaxValues.set([]);
+                        this.errorMessageVecm.update(value => "VECM - no se encontraon suficientes datos para el modelo");        
                     }else{
                         this.vecmValues.set(JSON.parse(data.result));
                         this.currencyMessage.update(value => "Valores expresados en USD")
@@ -102,7 +112,7 @@ export class Debt {
                     console.log(`Vecm Execution time: ${(end - start).toFixed(2)} ms`);
                 },
                 error: (err) => {
-                    this.errorMessage.update(value => "Vecm - Error al cargar datos. Intenta mas tarde");
+                    this.errorMessage.update(value => "VECM - ha ocurrido un error al ejecutar la prediccion");
                     this.currencyMessage.update(value => "");
                     console.error(err);
                     this.loading.update(value => false);

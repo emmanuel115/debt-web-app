@@ -24,6 +24,7 @@ export class CorrMulti {
     //selectedCountryItem: string | null = null;
     loading = signal(false);
     errorMessage = signal("");
+    noDataMessage = signal("");
     mapMessage = signal("");
 
     //plotImageSrc: string | null = null;
@@ -34,27 +35,40 @@ export class CorrMulti {
       return this.http.get<any>(this.apiUrlCorrMulti);
     }
 
+    getCountryNameByCode(code: string): string | undefined {
+      return COUNTRY_LIST.find(item => item.code === code)?.name;
+    }
+
     fetchData() {
 
         this.apiUrlCorrMulti = environment.apiUrlCorrMulti;
         console.log("Corr multi - fetch data()");
         const start = performance.now();
+        this.mapMessage.update(value => "");
         this.errorMessage.update(value => "");
+        this.noDataMessage.update(value => "");
+        this.plotImageSrc.update(value => "");
+
         
         if (!this.selectedCountry) {
-            this.errorMessage.update(value => "Selecciona un Pais");
+            this.errorMessage.update(value => "Selecciona un País");
             return;
         }
         this.loading.update(value => true);
-        this.mapMessage.update(value => "Mostrando resultados de correlacion: " + this.selectedCountry);
-
-
         this.apiUrlCorrMulti = this.apiUrlCorrMulti + this.selectedCountry;
         console.log("API CorrMulti URL: " + this.apiUrlCorrMulti);
 
 
         this.getImage().subscribe(res => {
-          this.plotImageSrc.update(value => 'data:image/png;base64,' + res.imageBase64);          
+          console.log(res)
+          if(res == "Error"){
+            this.errorMessage.update(value => "Ha ocurrido un error durante el analisis Multivariable");
+          }else if(res == "NO_DATA"){
+            this.noDataMessage.update(value => "No hay suficientes datos para calcular la correlación");
+          }else{
+            this.mapMessage.update(value => "Mostrando resultados de correlación multivariable para: " + this.getCountryNameByCode(this.selectedCountry));
+            this.plotImageSrc.update(value => 'data:image/png;base64,' + res.imageBase64);
+          }
           this.loading.update(value => false);
         });
  

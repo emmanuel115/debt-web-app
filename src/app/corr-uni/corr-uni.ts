@@ -43,7 +43,7 @@ export class CorrUni {
         this.errorMessage.update(value => "");
         
         if (!this.selectedCountry) {
-            this.errorMessage.update(value => "Selecciona un Pais");
+            this.errorMessage.update(value => "Selecciona un País");
             return;
         }
         if (!this.selectedIndicator) {
@@ -59,7 +59,7 @@ export class CorrUni {
         this.getImage().subscribe(res => {
           this.loading.update(value => false);
           if(res.code < 0){
-            this.errorMessage.update(value => "Error al obtener informacion del servidor, intenta mas tarde");
+            this.errorMessage.update(value => "Error al obtener información del servidor, intenta mas tarde");
             this.plotImageSrc.update(value => '');
             this.indicatorMessage.update(value => "");
           }else {
@@ -68,7 +68,7 @@ export class CorrUni {
               this.indicatorMessage.update(value => "No se encontraron suficientes datos");
               this.plotImageSrc.update(value => '');
             }else{
-              this.indicatorMessage.update(value => "Mostrando resultados de correlacion para el idicador: " + res.corrType);
+              this.indicatorMessage.update(value => "Mostrando resultados de correlación para el idicador: " + res.corrType);
               this.plotImageSrc.update(value => 'data:image/png;base64,' + res.imageBase64);          
             }
           }

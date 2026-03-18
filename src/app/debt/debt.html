@@ -4,12 +4,12 @@
 
 
 <div style="max-width: 800px; margin: auto; padding: 20px;">
-  <h2>Prediccion de Deuda Internacional</h2>
+  <h2>Predicción de Deuda Internacional</h2>
 
   <!-- Dropdown -->
-  <label for="dropdown" style="padding: 5px">Seleciona un Pais:</label>
+  <label for="dropdown" style="padding: 5px">Seleciona un País:</label>
   <select id="dropdown" [(ngModel)]="selectedCountry">
-    <option [ngValue]="null">-- Paises --</option>
+    <option [ngValue]="null">-- Países --</option>
     <option *ngFor="let opt of countriesList" [ngValue]="opt.code">
       {{ opt.name }}
     </option>
@@ -27,9 +27,10 @@
   /> Vecm
 
   <!-- Button -->
-  <button (click)="fetchData()" style="margin-left: 10px;">
-    Obten Prediccion
+  <button (click)="fetchData()" class="primary-btn">
+    Obtener Predicción
   </button>
+<br><br>
 
   <!-- Loading -->
   <div *ngIf="loading()" style="color: blue; margin-top: 10px;">
@@ -42,13 +43,19 @@
   </div>
 
   <!-- Response -->
+
+   <!-- Error sarimax -->
+  <div *ngIf="errorMessageSarimax()" style="color: blue; margin-top: 10px;">
+    {{ errorMessageSarimax() }}
+  </div>
+
    @if(sarimaxValues().length > 0){
 
       <div style="margin-top: 10px;">
           <p [style.color]="'blue'">
               {{ currencyMessage() }}
           </p>
-          <br><br>
+          <br>
           SARIMAX
           <ul>
               <li *ngFor="let item of sarimaxValues()">
@@ -62,13 +69,18 @@
       -----------------------------------------------------------------------
    }
 
-  <!-- Response -->
+  <!-- Response VECM -->
+    <!-- Error VECM -->
+  <div *ngIf="errorMessageVecm()" style="color: blue; margin-top: 10px;">
+    {{ errorMessageVecm() }}
+  </div>
+
    @if(vecmValues().length > 0){
       <div style="margin-top: 10px;">
         <p [style.color]="'blue'">
           {{ currencyMessage() }}
         </p>
-        <br><br>
+        <br>
         VECM
         <ul>
           <li *ngFor="let item of vecmValues()">
