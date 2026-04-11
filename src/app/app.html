@@ -4,24 +4,35 @@
   <div>
     <span><img 
     src="logo_proyecto.jpg" 
-    style="width:600px;height:150px"
+    style="width:500px;height:130px"
     alt=""></span>
   </div>
 
-  <div style="padding:40px; 
-    letter-spacing:5px; 
-    font-size: 50px; 
-    font-weight: bold;">
-    Deuda Internacional <br><br>
-    
-    <div style="font-size: 30px;
-        letter-spacing:2px; ">
-        Seminario de Inovación - Equipo 05E
-    </div>
-  </div>
-  
+<div style="
+            letter-spacing:2px; 
+            width:600px;">
+  <table>
+    <tr>
+      <td style="font-size:40px">
+        <br>
+          Seminario de Inovación - Equipo 05E
+          <br><br>
+      </td>
+    </tr>
+    <tr>
+      <td style=" padding:8px;
+                  line-height:1;
+                  font-size:28px;">
+          Análisis comparativo de indicadores macroeconómicos
+          <br> y deuda internacional de países miembros 
+          <br> del Banco Mundial
+      </td>
+    </tr>
+  </table>  
+</div>
 
 </mat-toolbar>
+<br><br>
 
 <mat-divider></mat-divider>
 
@@ -31,7 +42,7 @@
      routerLink="/debt"
      routerLinkActive #rla1="routerLinkActive"
      [active]="rla1.isActive">
-     Deuda Internacional
+     Predicción Deuda Internacional
   </a>
 
   <a mat-tab-link
